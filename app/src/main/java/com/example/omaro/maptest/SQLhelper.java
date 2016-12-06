@@ -9,7 +9,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -68,13 +70,7 @@ public class SQLhelper extends SQLiteOpenHelper {
                 content.put(LOCATION_COLUMN_NICK,Nick);
                 content.put(LOCATION_COLUMN_LAT,LAT);
                 content.put(LOCATION_COLUMN_LONG,LONG);
-                int tee = db.update(LOCATION_TABLE_NAME,content,LOCATION_COLUMN_ID + "= ?",new String[] {""+ID});
-                Log.d("RowsAffected", tee+"");
-                Log.d("ID" , "" + ID);
-                Log.d("Nick", Nick);
-                LatLng t = getEntryByNickLatLong(Nick);
-                Log.d("LAT", t.latitude +"");
-                Log.d("Long", t.longitude+"");
+                db.update(LOCATION_TABLE_NAME,content,LOCATION_COLUMN_ID+ "=ID",null);
 
         }
         // Custom method to insert stuff
@@ -112,6 +108,14 @@ public class SQLhelper extends SQLiteOpenHelper {
                 cursor.moveToFirst();
                 return new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LAT))),
                                   Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LONG))));
+        }
+        public Pair<String,LatLng> getEntireEntry(String nick)
+        {
+                Cursor cursor = getEntryByNick(nick);
+                cursor.moveToFirst();
+                return new Pair<String,LatLng>(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_NICK)) ,
+                        new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LAT))),
+                                   Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LONG)))));
         }
 
         public ArrayList<String> getEntireDataBase(){

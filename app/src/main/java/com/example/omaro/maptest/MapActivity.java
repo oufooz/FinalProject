@@ -2,12 +2,15 @@ package com.example.omaro.maptest;
 
 import android.Manifest;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +26,10 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
+
+
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
         GoogleMap mMap;
@@ -31,6 +37,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         private int count = 0;
         private LatLng originonstartup = null;
         private SQLhelper sqLhelper;
+        public ArrayList<Pair<String,LatLng>> locations = new ArrayList<>();
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -68,16 +75,21 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 // Sett bounds later on
                 //mMap.setLatLngBoundsForCameraTarget(new LatLngBounds(new LatLng(-124.848974,49.384358),new LatLng(-66.885444,24.396308)));
                 if(count == 0) {
-                        CameraPosition cameraPosition = new CameraPosition.Builder().target(originonstartup).zoom(25).build();
+                        CameraPosition cameraPosition = new CameraPosition.Builder().target(originonstartup).build();
                         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                        ArrayList<String> t = sqLhelper.getEntireDataBase();
-                        for(int i  = 0 ; i < t.size();i++)
-                        {
-                                LatLng temp = sqLhelper.getEntryByNickLatLong(t.get(i));
-                                mMap.addMarker(new MarkerOptions().position(temp).title(t.get(i)));
-                        }
+                        Loader load = new Loader(this);
+                        load.execute(locations);
+
                 }
        }
+        public void updateMap()
+        {
+                for(int i =0 ;i < locations.size();i++)
+                {
+                        Log.d("Locations working",locations.get(i).first );
+                        mMap.addMarker(new MarkerOptions().position(locations.get(i).second).title(locations.get(i).first));
+                }
+        }
 
         public void test(View view) {
                 MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -90,5 +102,32 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 mMap.addMarker(new MarkerOptions().position(t).title("Last" + count));
                 sqLhelper.insertEntry("Last"+ count, t.latitude,t.longitude);
                 mapFragment.getMapAsync(this);
+        }
+}
+class Loader extends AsyncTask<ArrayList<Pair<String,LatLng>>,Integer,Long> {
+
+        private Context mContext;
+        public Loader(Context context)
+        {
+                mContext = context;
+        }
+
+        @Override
+        protected Long doInBackground(ArrayList<Pair<String, LatLng>>... params) {
+                ArrayList<Pair<String, LatLng>> location = params[0];
+                SQLhelper loaderhelper = new SQLhelper(mContext);
+                ArrayList<String> t = loaderhelper.getEntireDataBase();
+                for(int i  = 0 ; i < t.size();i++)
+                {
+                        LatLng tempy = loaderhelper.getEntryByNickLatLong(t.get(i));
+                        location.add(new Pair<String,LatLng> (t.get(i),tempy));
+                }
+                return null;
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+              MapActivity temp  = (MapActivity) mContext;
+                temp.updateMap();
         }
 }

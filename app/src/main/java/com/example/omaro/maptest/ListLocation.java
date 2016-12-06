@@ -17,12 +17,14 @@ import java.util.List;
 public class ListLocation extends AppCompatActivity {
         private SQLhelper sqLhelper;
         private static int MODIFY_ENTRY_REQ = 10;
+        private ListView listy;
+        private boolean resumingwithresult = false;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_list_location);
-                final ListView listy = (ListView) findViewById(R.id.ListViewListLocation);
+                listy = (ListView) findViewById(R.id.ListViewListLocation);
                 sqLhelper = new SQLhelper(this);
                 ArrayList<String> t  = sqLhelper.getEntireDataBase();
                 final ArrayAdapter dapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,t);
@@ -46,10 +48,28 @@ public class ListLocation extends AppCompatActivity {
                                 String t = listy.getItemAtPosition(position).toString();
 
                                 int i =  sqLhelper.getIdByNick(t);
+                                /*
                                 LatLng tedy = sqLhelper.getEntryByNickLatLong(t);
-                                sqLhelper.updateEntry(i,"TOM",tedy.latitude,tedy.longitude);
+                                sqLhelper.updateEntry(i,"TOM",tedy.latitude,tedy.longitude);*/
+
+                                Bundle args = new Bundle();
+                                args.putInt("ID" , i);
+                                args.putString("NICK",t);
+/*                                args.putParcelable("LatLong",tedy);
+                                args.putString("nick",t);*/
+                                Intent intent = new Intent(ListLocation.this,modifyContact.class);
+                                intent.putExtras(args);
+                                startActivityForResult(intent,1);
                                 return true;
                         }
                 });
+        }
+
+        @Override
+        protected void onPostResume() {
+                super.onPostResume();
+                ArrayList<String> t  = sqLhelper.getEntireDataBase();
+                final ArrayAdapter dapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,t);
+                listy.setAdapter(dapter);
         }
 }
