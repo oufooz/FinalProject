@@ -1,6 +1,8 @@
 package com.example.omaro.maptest;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -9,8 +11,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+        private BroadcastReceiver receiver;
+        //private TextView test;
+        private SQLhelper SQLhelper;
+        private Context mContext;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +34,26 @@ public class MainActivity extends AppCompatActivity {
                                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                                 0);
                 }
+                mContext = this;
+                //test = (TextView) findViewById(R.id.tv_coord);
+                //Start Service
+                Intent service = new Intent(this, GPSService.class);
+                startService(service);
+        }
+
+        @Override
+        protected  void onResume(){
+                super.onResume();
+                if(receiver == null){
+                        receiver = new BroadcastReceiver() {
+                                @Override
+                                public void onReceive(Context context, Intent intent) {
+                                        //RECEIVE TASK
+
+                                }
+                        };
+                }
+                registerReceiver(receiver,new IntentFilter("update"));
         }
 
         public void beginMapStart(View view) {

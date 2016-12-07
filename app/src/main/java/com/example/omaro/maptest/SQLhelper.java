@@ -133,14 +133,17 @@ public class SQLhelper extends SQLiteOpenHelper {
                 return values;
         }
 
-        public Map<String,Object> getEntireDataBase(int t){
-                Map<String,Object> tempMap = new HashMap<>();
+        public Map<String,LatLng> getEntireDataBaseMap(){
+                Map<String,LatLng> tempMap = new HashMap<>();
                 SQLiteDatabase db = this.getReadableDatabase();
+
                 Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME,null);
                 cursor.moveToFirst();
 
                 while (cursor.moveToNext()){
-                        tempMap.put(cursor.getString(cursor.getColumnIndex("nick")),cursor.getString(cursor.getColumnIndex("long")));
+
+                        tempMap.put(cursor.getString(cursor.getColumnIndex("nick")), new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LAT))),
+                                Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LONG)))));
                 }
 
                 return tempMap;

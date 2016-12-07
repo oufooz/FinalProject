@@ -60,6 +60,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 Toast.makeText(this, "Opened", Toast.LENGTH_SHORT).show();
 
 
+
+
         }
 
         @Override
