@@ -35,4 +35,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent lls = new Intent(this,ListLocation.class);
                 startActivity(lls);
         }
+
+        public void AddTaskClick(View view) {
+                //attaching a list to a location that then gets fetched when in particular location.
+                // automatically detecting when near car.. and does route to home.
+        }
 }

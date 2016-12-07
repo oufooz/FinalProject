@@ -11,10 +11,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.example.omaro.maptest.MainActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location Related"
+        android:textSize="30dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="20dp"
         android:weightSum="2">
 
     <Button
@@ -31,6 +37,27 @@
         android:text="ListLocations"
         android:id="@+id/listLocation"
         android:onClick="listLocationStart"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Task Related"
+        android:textSize="30dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="AddTask"
+            android:id="@+id/AddTask"
+            android:onClick="AddTaskClick"/>
+
     </LinearLayout>
 
 </LinearLayout>

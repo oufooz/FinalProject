@@ -16,6 +16,7 @@ public class modifyContact extends AppCompatActivity {
         private TextView LatLong;
         private EditText newname;
         private LatLng latLng;
+        private String OldNick;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +31,16 @@ public class modifyContact extends AppCompatActivity {
 
                 Intent intent = getIntent();
                 ID = intent.getIntExtra("ID", 0);
-                String nick = intent.getStringExtra("NICK");
+                OldNick = intent.getStringExtra("NICK");
 
-                latLng = sqLhelper.getEntryByNickLatLong(nick);
+                latLng = sqLhelper.getEntryByNickLatLong(OldNick);
 
-                oldname.setText(nick);
+                oldname.setText(OldNick);
                 LatLong.setText(latLng.latitude + " " + latLng.longitude);
         }
 
         public void Done(View view) {
-                sqLhelper.updateEntry(ID, newname.getText().toString(),latLng.latitude,latLng.longitude);
+                sqLhelper.updateEntry(OldNick, newname.getText().toString(),latLng.latitude,latLng.longitude);
                 setResult(1);
                 finish();
         }
