@@ -64,14 +64,13 @@ public class SQLhelper extends SQLiteOpenHelper {
                 // However, I do not anticipate needing this for your assignment
                 // For your project, maybe? Look into it if need be.
         }
-        public void updateEntry(int ID,String Nick, double LAT, double LONG){
+        public void updateEntry(String OldNick,String Nick, double LAT, double LONG){
                 SQLiteDatabase db= this.getWritableDatabase();
                 ContentValues content = new ContentValues();
                 content.put(LOCATION_COLUMN_NICK,Nick);
                 content.put(LOCATION_COLUMN_LAT,LAT);
                 content.put(LOCATION_COLUMN_LONG,LONG);
-                db.update(LOCATION_TABLE_NAME,content,LOCATION_COLUMN_ID+ "=ID",null);
-
+                db.update(LOCATION_TABLE_NAME,content, LOCATION_COLUMN_NICK + "='" + OldNick+"'",null);
         }
         // Custom method to insert stuff
         public void insertEntry(String Nick, double LAT, double LONG){
@@ -87,7 +86,7 @@ public class SQLhelper extends SQLiteOpenHelper {
         // Custom method to return entries
         public Cursor getEntryById(int id){
                 SQLiteDatabase db = this.getReadableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE " + LOCATION_COLUMN_ID + "=" + id,null);
+                Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE " + LOCATION_COLUMN_ID + "='" + id+ "'",null);
                 return cursor;
         }
         public Cursor getEntryByNick(String nick){

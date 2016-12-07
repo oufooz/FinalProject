@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".MapActivity" />
         <activity android:name=".ListLocation" />
-        <activity android:name=".LaunchActivity" />
+
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".modifyContact"></activity>
@@ -36,6 +36,7 @@
             android:name=".GPSService"
             android:enabled="true"
             android:exported="true"></service>
+
     </application>
 
 </manifest>

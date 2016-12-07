@@ -21,21 +21,21 @@
         android:textSize="30dp" />
 
     <EditText
-        android:id="@+id/et_username"
+        android:id="@+id/et_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/instructionsText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Email"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/et_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_username"
+        android:layout_below="@+id/et_email"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:ems="10"
