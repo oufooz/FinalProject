@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         public void beginMapStart(View view) {
                 Intent bms = new Intent(this,MapActivity.class);
                 bms.putExtra("NICK","null");
-                bms.putExtra("LAT",40.600858);
-                bms.putExtra("LONG",-74.2920317);
+                /*bms.putExtra("LAT",40.600858);
+                bms.putExtra("LONG",-74.2920317);*/
                 startActivity(bms);
         }
 
