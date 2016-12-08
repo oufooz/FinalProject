@@ -46,5 +46,6 @@ public class modifyContact extends AppCompatActivity {
         }
 
         public void Delete(View view) {
+                sqLhelper.deleteEntryByNick(oldname.toString());
         }
 }

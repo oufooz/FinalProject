@@ -116,6 +116,11 @@ public class SQLhelper extends SQLiteOpenHelper {
                         new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LAT))),
                                    Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LONG)))));
         }
+        public void deleteEntryByNick(String nick)
+        {
+                SQLiteDatabase db = this.getReadableDatabase();
+                db.delete(LOCATION_TABLE_NAME,LOCATION_COLUMN_NICK + "='" + nick+"'",null);
+        }
 
         public ArrayList<String> getEntireDataBase(){
                 SQLiteDatabase db = this.getReadableDatabase();
