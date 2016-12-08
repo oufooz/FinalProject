@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -73,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void AddTaskClick(View view) {
-                //attaching a list to a location that then gets fetched when in particular location.
-                // automatically detecting when near car.. and does route to home.
+                // Create a Uri from an intent string. Use the result to create an Intent.
+
         }
 
         public void SignOutClick(View view) {
@@ -83,4 +84,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(main);
 
         }
+
+        public void DistanceTo()
+        {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=37.7749,-122.4194");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+        }
+
+
 }

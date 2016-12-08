@@ -25,7 +25,6 @@ public class GPSService extends Service {
 
     private LocationListener listener;
     private LocationManager manager;
-    private SQLhelper SQLhelper;
     private double lat, lon;
 
     public GPSService() {
@@ -64,20 +63,20 @@ public class GPSService extends Service {
 
     }
 
-    private void returnTask(Location current){
-        SQLhelper = new SQLhelper(this);
-        ArrayList<Pair<String,LatLng>> t  = SQLhelper.getEntireDataBaseMap();
+    private void returnTask(Location current) {
+        SQLhelper sqLhelper = new SQLhelper(this);
+        ArrayList<Pair<String, LatLng>> t = sqLhelper.getEntireDataBaseMap();
 
-        for (int i = 0; i<t.size(); i++){
+        for (int i = 0; i < t.size(); i++) {
             LatLng temp = t.get(i).second;
             Location loc = new Location("");
             loc.setLatitude(temp.latitude);
             loc.setLongitude(temp.longitude);
             loc.setAccuracy(50);
 
-            if (current.distanceTo(loc) <= 200){
+            if (current.distanceTo(loc) <= 200) {
                 String nick = t.get(i).first;
-                Log.d("TAG-Service",nick + "IN RANGE");
+                Log.d("TAG-Service", nick + "IN RANGE");
                 Intent update = new Intent("update");
                 update.putExtra("nick", nick);
                 sendBroadcast(update);
@@ -90,9 +89,9 @@ public class GPSService extends Service {
 //                update.putExtra("nick", nick);
 //                sendBroadcast(update);
 //            }
+
+
         }
-
-
     }
 
 //    protected void addProximityAlert(String nick, double lat, double lon){
