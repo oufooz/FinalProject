@@ -3,12 +3,14 @@ package com.example.omaro.maptest;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 sqLhelper = new SQLhelper(this);
                 ArrayList<String> temp = new ArrayList<>();
                 temp.add("NAV");
+                temp.add("REM");
                 ArrayAdapter<String> dapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,temp);
                 spin.setAdapter(dapter);
                         //Start Service
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onReceive(Context context, Intent intent) {
                                         //RECEIVE Nick
+
+                                        Log.d("TAG-Main",intent.getStringExtra("nick"));
 
                                         SharedPreferences temp = getSharedPreferences(intent.getStringExtra("nick") , MODE_PRIVATE);
                                         Set<String> t = temp.getStringSet("Tasks", new HashSet<String>());
@@ -103,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                                                 taskeditor.putString("time",tempdate);
                                                 taskeditor.apply();
                                                 Log.d("type",t.toString());
+                                                Log.d("TAG-Main", type);
                                                 switch (type) {
                                                         case "non":
                                                                 break;
@@ -115,6 +121,13 @@ public class MainActivity extends AppCompatActivity {
                                                                         DistanceTo(Dest);
                                                                 }
                                                                 break;
+                                                        case "REM":
+                                                                String note = TaskPref.getString("note","non");
+                                                                if (note == "non")
+                                                                        break;
+                                                                else {
+                                                                        reminder(note);
+                                                                }
                                                 }
                                         }
 
@@ -129,6 +142,20 @@ public class MainActivity extends AppCompatActivity {
         protected void onDestroy() {
                 super.onDestroy();
                 unregisterReceiver(receiver);
+        }
+
+        public void reminder(String note){
+                Log.d("TAG-Main", "REMINDER ACTIVATED");
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Reminder");
+                builder.setMessage(note);
+                builder.setNegativeButton("Close", null);
+
+                AlertDialog display = builder.create();
+                builder.show();
+
+
+
         }
 
         public void beginMapStart(View view) {
@@ -151,6 +178,10 @@ public class MainActivity extends AppCompatActivity {
                 {
                         Intent Nav = new Intent(this,AddNavTask.class);
                         startActivity(Nav);
+                }
+                else if (selectedtype == "REM"){
+                        Intent rem = new Intent(this, AddReminderTask.class);
+                        startActivity(rem);
                 }
 
 

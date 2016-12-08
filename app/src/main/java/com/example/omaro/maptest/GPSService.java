@@ -76,7 +76,7 @@ public class GPSService extends Service {
 
             if (current.distanceTo(loc) <= 200) {
                 String nick = t.get(i).first;
-                Log.d("TAG-Service", nick + "IN RANGE");
+                Log.d("TAG-Service", nick + " "+ "IN RANGE");
                 Intent update = new Intent("update");
                 update.putExtra("nick", nick);
                 sendBroadcast(update);
