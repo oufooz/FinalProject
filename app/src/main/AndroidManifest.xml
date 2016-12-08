@@ -32,7 +32,7 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".modifyContact"></activity>
-        <activity android:name=".AddTask" />
+        <activity android:name=".AddNavTask" />
 
         <service
             android:name=".GPSService"

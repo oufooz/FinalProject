@@ -8,14 +8,14 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-public class AddTask extends AppCompatActivity {
+public class AddNavTask extends AppCompatActivity {
         private Spinner Source;
         private Spinner Destination;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_add_task);
+                setContentView(R.layout.activity_addNav_task);
 
                 SQLhelper t = new SQLhelper(this);
                 ArrayList<String> temp = t.getEntireDataBase();
