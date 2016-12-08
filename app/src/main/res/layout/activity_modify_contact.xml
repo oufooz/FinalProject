@@ -14,8 +14,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="Done"
-        android:text="ModifyLocationNick"
+        android:onClick="Delete"
+        android:text="Delete"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"/>
@@ -45,5 +45,14 @@
         android:layout_marginBottom="77dp"
         android:layout_above="@+id/NewName"
         android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Done"
+        android:text="ModifyLocationNick"
+        android:layout_below="@+id/NewName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"/>
 
 </RelativeLayout>

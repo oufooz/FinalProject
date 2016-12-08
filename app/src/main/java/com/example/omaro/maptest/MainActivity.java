@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         private TextView test;
         private SQLhelper SQLhelper;
         private Context mContext;
+        private Spinner spin;
+        private EditText inputName;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mContext = this;
                 test = (TextView) findViewById(R.id.tv_test);
-                //Start Service
+                spin = (Spinner) findViewById(R.id.TaskType);
+                inputName = (EditText) findViewById(R.id.TaskNameInputMain);
+                ArrayList<String> temp = new ArrayList<>();
+                temp.add("NAV");
+                ArrayAdapter<String> dapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,temp);
+                spin.setAdapter(dapter);
+                        //Start Service
                 Intent service = new Intent(this, GPSService.class);
                 startService(service);
         }
@@ -60,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
                 registerReceiver(receiver,new IntentFilter("update"));
         }
 
+        @Override
+        protected void onDestroy() {
+                super.onDestroy();
+                unregisterReceiver(receiver);
+        }
+
         public void beginMapStart(View view) {
                 Intent bms = new Intent(this,MapActivity.class);
                 bms.putExtra("NICK","null");
@@ -74,7 +91,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void AddTaskClick(View view) {
-                // Create a Uri from an intent string. Use the result to create an Intent.
+
+                String inputNameString = inputName.toString();
+                String selectedtype  = spin.getSelectedItem().toString();
+                if(selectedtype == "NAV")
+                {
+                        Intent Nav = new Intent(this,AddNavTask.class);
+                        Nav.putExtra("Name",inputNameString);
+                        startActivity(Nav);
+                }
+
+
+
 
         }
 

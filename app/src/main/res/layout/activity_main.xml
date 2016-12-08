@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
@@ -54,15 +53,32 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <Button
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="AddTask"
-            android:id="@+id/AddTask"
-            android:onClick="AddTaskClick"/>
+            android:text="TaskName"
+            android:textSize="20dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="TaskNameInput"
+            android:id="@+id/TaskNameInputMain"
+            android:textSize="15dp"/>
 
     </LinearLayout>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TaskType"></Spinner>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AddTask"
+        android:id="@+id/AddTask"
+        android:onClick="AddTaskClick"/>
 
     <Button
         android:layout_width="wrap_content"

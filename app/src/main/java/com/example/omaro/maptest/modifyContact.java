@@ -44,4 +44,7 @@ public class modifyContact extends AppCompatActivity {
                 setResult(1);
                 finish();
         }
+
+        public void Delete(View view) {
+        }
 }

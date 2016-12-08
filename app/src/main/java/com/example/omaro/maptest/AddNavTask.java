@@ -1,9 +1,11 @@
 package com.example.omaro.maptest;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -15,7 +17,12 @@ public class AddNavTask extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_addNav_task);
+                setContentView(R.layout.activity_addnav_task);
+
+                EditText ted = (EditText) findViewById(R.id.inputTaskName);
+
+                Intent Recieve = getIntent();
+                ted.setText(Recieve.getStringExtra("NAV"));
 
                 SQLhelper t = new SQLhelper(this);
                 ArrayList<String> temp = t.getEntireDataBase();
