@@ -71,6 +71,7 @@ public class SQLhelper extends SQLiteOpenHelper {
                 content.put(LOCATION_COLUMN_LAT,LAT);
                 content.put(LOCATION_COLUMN_LONG,LONG);
                 db.update(LOCATION_TABLE_NAME,content, LOCATION_COLUMN_NICK + "='" + OldNick+"'",null);
+                db.close();
         }
         // Custom method to insert stuff
         public void insertEntry(String Nick, double LAT, double LONG){
@@ -80,6 +81,7 @@ public class SQLhelper extends SQLiteOpenHelper {
                 content.put(LOCATION_COLUMN_LAT,LAT);
                 content.put(LOCATION_COLUMN_LONG,LONG);
                 db.insert(LOCATION_TABLE_NAME,null,content);
+                db.close();
         }
 
 
@@ -87,16 +89,19 @@ public class SQLhelper extends SQLiteOpenHelper {
         public Cursor getEntryById(int id){
                 SQLiteDatabase db = this.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE " + LOCATION_COLUMN_ID + "='" + id+ "'",null);
+
                 return cursor;
         }
         public Cursor getEntryByNick(String nick){
                 SQLiteDatabase db = this.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE " + LOCATION_COLUMN_NICK + "= '" + nick + "' ",null);
+
                 return cursor;
         }
         public Integer getIdByNick(String nick){
                 SQLiteDatabase db = this.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE " + LOCATION_COLUMN_NICK + "= '" + nick + "' ",null);
+
                 cursor.moveToFirst();
                 return cursor.getColumnIndex(LOCATION_COLUMN_ID);
         }
@@ -121,6 +126,7 @@ public class SQLhelper extends SQLiteOpenHelper {
                 SQLiteDatabase db = this.getReadableDatabase();
                 int t = db.delete(LOCATION_TABLE_NAME,LOCATION_COLUMN_NICK + "='" + nick+"'",null);
                 Log.d("Deletion", t +  "  " + nick);
+                db.close();
         }
 
         public ArrayList<String> getEntireDataBase(){

@@ -52,7 +52,7 @@ public class AddNavTask extends AppCompatActivity {
                 thisoneeditor.putString("type","NAV");
                 thisoneeditor.putString("dest",k);
 
-                thisoneeditor.commit();
+                thisoneeditor.apply();
 
                 SharedPreferences temp = getSharedPreferences(t,MODE_PRIVATE);
                 SharedPreferences.Editor tempeditor = temp.edit();
@@ -62,7 +62,7 @@ public class AddNavTask extends AppCompatActivity {
                 tasks.add(taskname);
 
                 tempeditor.putStringSet("Tasks",tasks);
-                tempeditor.commit();
+                tempeditor.apply();
 
                 finish();
         }

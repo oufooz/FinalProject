@@ -19,9 +19,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -30,10 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
         private BroadcastReceiver receiver;
         private TextView test;
-        private SQLhelper SQLhelper;
         private Context mContext;
         private Spinner spin;
         private EditText inputName;
+        private SQLhelper sqLhelper;
+        private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 test = (TextView) findViewById(R.id.tv_test);
                 spin = (Spinner) findViewById(R.id.TaskType);
                 inputName = (EditText) findViewById(R.id.TaskNameInputMain);
+                sqLhelper = new SQLhelper(this);
                 ArrayList<String> temp = new ArrayList<>();
                 temp.add("NAV");
                 ArrayAdapter<String> dapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,temp);
@@ -73,12 +81,34 @@ public class MainActivity extends AppCompatActivity {
                                         for (String s: t) {
                                                 SharedPreferences TaskPref = getSharedPreferences(s, MODE_PRIVATE);
                                                 String type = TaskPref.getString("type", "non");
+                                                String date = TaskPref.getString("time","non");
+                                                boolean moreThanDay = true;
+                                                String tempdate = sdfDate.format(new Date());
+                                                if(date != "non") {
+
+                                                        try {
+                                                                Date date1 = sdfDate.parse(date);
+                                                                Date date2 = sdfDate.parse(tempdate);
+                                                                moreThanDay = Math.abs(date1.getTime() - date2.getTime()) > MILLIS_PER_DAY;
+                                                        } catch (ParseException e) {
+                                                                e.printStackTrace();
+                                                        }
+                                                        ;
+                                                }
+
+                                                if(!moreThanDay) {
+                                                        return;
+                                                }
+                                                SharedPreferences.Editor taskeditor = TaskPref.edit();
+                                                taskeditor.putString("time",tempdate);
+                                                taskeditor.apply();
                                                 Log.d("type",t.toString());
                                                 switch (type) {
                                                         case "non":
                                                                 break;
                                                         case "NAV":
                                                                 String Dest = TaskPref.getString("dest", "non");
+                                                                Log.d("execute","executed?");
                                                                 if (Dest == "non")
                                                                         break;
                                                                 else {
@@ -137,7 +167,9 @@ public class MainActivity extends AppCompatActivity {
 
         public void DistanceTo(String nick)
         {
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=37.7749,-122.4194");
+                LatLng t = sqLhelper.getEntryByNickLatLong(nick);
+
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(t.latitude + "," + t.longitude));
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
