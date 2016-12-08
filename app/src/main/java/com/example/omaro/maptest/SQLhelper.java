@@ -147,6 +147,7 @@ public class SQLhelper extends SQLiteOpenHelper {
 
                 return temp;
         }
+        
 
         // Custom SQL query
         public Cursor customQuery(String query){
