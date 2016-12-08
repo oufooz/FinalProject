@@ -132,20 +132,20 @@ public class SQLhelper extends SQLiteOpenHelper {
                 return values;
         }
 
-        public Map<String,LatLng> getEntireDataBaseMap(){
-                Map<String,LatLng> tempMap = new HashMap<>();
+        public ArrayList<Pair<String,LatLng>>getEntireDataBaseMap(){
+                ArrayList<Pair<String,LatLng>> temp = new ArrayList<>();
                 SQLiteDatabase db = this.getReadableDatabase();
 
                 Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME,null);
                 cursor.moveToFirst();
 
                 while (cursor.moveToNext()){
-
-                        tempMap.put(cursor.getString(cursor.getColumnIndex("nick")), new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LAT))),
-                                Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LONG)))));
+                        temp.add(new Pair<String,LatLng>(cursor.getString(cursor.getColumnIndex("nick")),
+                        new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LAT))),
+                                        Double.parseDouble(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN_LONG))))));
                 }
 
-                return tempMap;
+                return temp;
         }
 
         // Custom SQL query

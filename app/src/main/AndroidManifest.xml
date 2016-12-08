@@ -18,7 +18,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCOKleeBq_-9FbwSF5qLkvvmYSQFz4eBY" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,7 @@
         <activity android:name=".MapActivity" />
         <activity android:name=".ListLocation" />
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".modifyContact"></activity>
 

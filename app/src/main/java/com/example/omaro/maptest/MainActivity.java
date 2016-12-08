@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -72,5 +73,12 @@ public class MainActivity extends AppCompatActivity {
         public void AddTaskClick(View view) {
                 //attaching a list to a location that then gets fetched when in particular location.
                 // automatically detecting when near car.. and does route to home.
+        }
+
+        public void SignOutClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent main = new Intent(this,LoginActivity.class);
+                startActivity(main);
+
         }
 }

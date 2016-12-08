@@ -19,44 +19,58 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button login, register;
-    private EditText Email, pass;
-    private FirebaseAuth mAuth;
+        private Button login, register;
+        private EditText Email, pass;
+        private FirebaseAuth mAuth;
         private FirebaseAuth.AuthStateListener mAuthListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_login);
 
-        login = (Button) findViewById(R.id.btn_login);
-        register = (Button) findViewById(R.id.btn_register);
-        Email = (EditText) findViewById(R.id.et_email);
-        pass = (EditText) findViewById(R.id.et_password);
+                login = (Button) findViewById(R.id.btn_login);
+                register = (Button) findViewById(R.id.btn_register);
+                Email = (EditText) findViewById(R.id.et_email);
+                pass = (EditText) findViewById(R.id.et_password);
 
-        mAuth = FirebaseAuth.getInstance();
+                mAuth = FirebaseAuth.getInstance();
 
-        register.setOnClickListener(this);
-        login.setOnClickListener(this);
+                register.setOnClickListener(this);
+                login.setOnClickListener(this);
 
-            mAuthListener = new FirebaseAuth.AuthStateListener(){
-                    @Override
-                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            if(user != null)
-                            {
-                                    Intent startNewActivity = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(startNewActivity);
-                                    finish();
-                            }
-                            else
-                            {
-                                    // fetch data .. from online database.
-                            }
-                    }
-            };
-    }
+                mAuthListener = new FirebaseAuth.AuthStateListener(){
+                        @Override
+                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                                        Log.d("Success", "DONE");
+                                        Toast.makeText(LoginActivity.this, "LOGGED IN ", Toast.LENGTH_SHORT).show();
+                                        if(user != null)
+                                        {
+                                                Intent startNewActivity = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(startNewActivity);
+                                                finish();
+                                        }
+                                        else
+                                        {
+                                        // fetch data .. from online database.
+                                        }
+                                }
+                };
+         }
+        @Override
+        public void onStart() {
+                super.onStart();
+                mAuth.addAuthStateListener(mAuthListener);
+        }
 
+        @Override
+        public void onStop() {
+                super.onStop();
+                if (mAuthListener != null) {
+                        mAuth.removeAuthStateListener(mAuthListener);
+                }
+        }
     @Override
     public void onClick(View v) {
         if (v.equals(login)) {
