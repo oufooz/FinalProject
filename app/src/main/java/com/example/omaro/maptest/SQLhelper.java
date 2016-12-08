@@ -119,7 +119,8 @@ public class SQLhelper extends SQLiteOpenHelper {
         public void deleteEntryByNick(String nick)
         {
                 SQLiteDatabase db = this.getReadableDatabase();
-                db.delete(LOCATION_TABLE_NAME,LOCATION_COLUMN_NICK + "='" + nick+"'",null);
+                int t = db.delete(LOCATION_TABLE_NAME,LOCATION_COLUMN_NICK + "='" + nick+"'",null);
+                Log.d("Deletion", t +  "  " + nick);
         }
 
         public ArrayList<String> getEntireDataBase(){
