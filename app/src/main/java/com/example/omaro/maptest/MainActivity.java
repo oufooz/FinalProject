@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -21,7 +22,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,7 +65,28 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onReceive(Context context, Intent intent) {
                                         //RECEIVE Nick
-                                test.append("\n" + intent.getExtras().get("nick"));
+
+                                        SharedPreferences temp = getSharedPreferences(intent.getStringExtra("nick") , MODE_PRIVATE);
+                                        Set<String> t = temp.getStringSet("Tasks", new HashSet<String>());
+                                        Log.d("recieved",t.toString());
+
+                                        for (String s: t) {
+                                                SharedPreferences TaskPref = getSharedPreferences(s, MODE_PRIVATE);
+                                                String type = TaskPref.getString("type", "non");
+                                                Log.d("type",t.toString());
+                                                switch (type) {
+                                                        case "non":
+                                                                break;
+                                                        case "NAV":
+                                                                String Dest = TaskPref.getString("dest", "non");
+                                                                if (Dest == "non")
+                                                                        break;
+                                                                else {
+                                                                        DistanceTo(Dest);
+                                                                }
+                                                                break;
+                                                }
+                                        }
 
 
                                 }
@@ -92,12 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
         public void AddTaskClick(View view) {
 
-                String inputNameString = inputName.toString();
                 String selectedtype  = spin.getSelectedItem().toString();
                 if(selectedtype == "NAV")
                 {
                         Intent Nav = new Intent(this,AddNavTask.class);
-                        Nav.putExtra("Name",inputNameString);
                         startActivity(Nav);
                 }
 
@@ -113,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        public void DistanceTo()
+        public void DistanceTo(String nick)
         {
                 Uri gmmIntentUri = Uri.parse("google.navigation:q=37.7749,-122.4194");
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
