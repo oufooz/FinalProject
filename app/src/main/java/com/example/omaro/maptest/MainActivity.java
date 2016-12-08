@@ -22,7 +22,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
         private BroadcastReceiver receiver;
-        //private TextView test;
+        private TextView test;
         private SQLhelper SQLhelper;
         private Context mContext;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                                 0);
                 }
                 mContext = this;
-                //test = (TextView) findViewById(R.id.tv_coord);
+                test = (TextView) findViewById(R.id.tv_test);
                 //Start Service
                 Intent service = new Intent(this, GPSService.class);
                 startService(service);
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onReceive(Context context, Intent intent) {
                                         //RECEIVE Nick
-
+                                test.append("\n" + intent.getExtras().get("nick"));
 
 
                                 }

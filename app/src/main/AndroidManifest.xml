@@ -28,7 +28,7 @@
         <activity android:name=".MapActivity" />
         <activity android:name=".ListLocation" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".modifyContact"></activity>
 

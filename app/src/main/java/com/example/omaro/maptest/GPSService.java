@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -36,7 +37,7 @@ public class GPSService extends Service {
             listener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    returnTask(location.getLatitude(), location.getLongitude());
+                    returnTask(location);
 
                 }
 
@@ -63,18 +64,32 @@ public class GPSService extends Service {
 
     }
 
-    private void returnTask(double lat, double lon){
+    private void returnTask(Location current){
         SQLhelper = new SQLhelper(this);
         ArrayList<Pair<String,LatLng>> t  = SQLhelper.getEntireDataBaseMap();
 
         for (int i = 0; i<t.size(); i++){
             LatLng temp = t.get(i).second;
-            if (abs(temp.latitude - lat) <= 100 || abs(temp.longitude - lon)<=100){
+            Location loc = new Location("");
+            loc.setLatitude(temp.latitude);
+            loc.setLongitude(temp.longitude);
+            loc.setAccuracy(50);
+
+            if (current.distanceTo(loc) <= 200){
                 String nick = t.get(i).first;
+                Log.d("TAG-Service",nick + "IN RANGE");
                 Intent update = new Intent("update");
                 update.putExtra("nick", nick);
                 sendBroadcast(update);
+
             }
+
+//            if (abs(temp.latitude - lat) <= 100 && abs(temp.longitude - lon)<=100){
+//                String nick = t.get(i).first;
+//                Intent update = new Intent("update");
+//                update.putExtra("nick", nick);
+//                sendBroadcast(update);
+//            }
         }
 
 
