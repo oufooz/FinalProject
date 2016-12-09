@@ -74,11 +74,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 {
                         e.printStackTrace();
                 }
-                mMap.setMinZoomPreference(12.0f);
                 // Sett bounds later on
                 //mMap.setLatLngBoundsForCameraTarget(new LatLngBounds(new LatLng(-124.848974,49.384358),new LatLng(-66.885444,24.396308)));
                 if(count == 0) {
-                        CameraPosition cameraPosition = new CameraPosition.Builder().target(originonstartup).build();
+                        CameraPosition cameraPosition = new CameraPosition.Builder().target(originonstartup).zoom(12.0f).build();
                         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                         Loader load = new Loader(this);
                         load.execute(locations);
