@@ -25,7 +25,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
@@ -38,6 +40,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         private LatLng originonstartup = null;
         private SQLhelper sqLhelper;
         public ArrayList<Pair<String,LatLng>> locations = new ArrayList<>();
+        private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -101,8 +104,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 LatLng t = mMap.getCameraPosition().target;
                 String u = t.longitude + " " + t.latitude;
                 text.setText(u);
-                mMap.addMarker(new MarkerOptions().position(t).title("Last" + count));
-                sqLhelper.insertEntry("Last"+ count, t.latitude,t.longitude);
+                mMap.addMarker(new MarkerOptions().position(t).title(sdfDate.format(new Date())));
+                sqLhelper.insertEntry(sdfDate.format(new Date()), t.latitude,t.longitude);
                 mapFragment.getMapAsync(this);
         }
 }
