@@ -6,3 +6,8 @@ Team Members: Andrew Chan , Omar Ouf
 Brief Description:
 	Location Based trigger That launches various tasks depending on the proximity of the preAdded LocationData.
 	
+	
+Libraries: <br>
+	Used GoogleAPI's for mapfragments.
+	Used FirebaseAuthentication for Login/Creation of Activity.
+	
