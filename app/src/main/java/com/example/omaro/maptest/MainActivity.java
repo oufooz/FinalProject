@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                                 }
 
                                                 if(!moreThanDay) {
-                                                        return;
+                                                        continue;
                                                 }
                                                 SharedPreferences.Editor taskeditor = TaskPref.edit();
                                                 taskeditor.putString("time",tempdate);
