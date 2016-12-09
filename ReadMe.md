@@ -9,5 +9,6 @@ Brief Description:
 	
 Libraries: <br>
 	Used GoogleAPI's for mapfragments.
-	Used FirebaseAuthentication for Login/Creation of Activity.
+	<br>
+	Used FirebaseAuthentication for Login/Registration
 	
