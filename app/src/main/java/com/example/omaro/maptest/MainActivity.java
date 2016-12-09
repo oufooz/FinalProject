@@ -1,6 +1,10 @@
 package com.example.omaro.maptest;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,10 +13,14 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Vibrator;
+import android.provider.SyncStateContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -146,6 +154,27 @@ public class MainActivity extends AppCompatActivity {
 
         public void reminder(String note){
                 Log.d("TAG-Main", "REMINDER ACTIVATED");
+
+                //Create lock-screen dialog
+                vibrate();
+
+                Log.d("TAG-Main", "Sending Notification");
+
+                PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                Notification notification = new NotificationCompat.Builder(this)
+                        .setContentTitle("REMINDER")
+                        .setContentText(note)
+                        .setSmallIcon(R.drawable.common_google_signin_btn_text_light)
+                        .setContentIntent(pi)
+                        .setAutoCancel(true)
+                        .build();
+
+                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.notify(1, notification);
+
+
+
+                //Creates Dialog if Screen Open
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("Reminder");
                 builder.setMessage(note);
@@ -183,10 +212,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent rem = new Intent(this, AddReminderTask.class);
                         startActivity(rem);
                 }
+        }
 
-
-
-
+        private void vibrate() {
+                Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(1000);
         }
 
         public void SignOutClick(View view) {
