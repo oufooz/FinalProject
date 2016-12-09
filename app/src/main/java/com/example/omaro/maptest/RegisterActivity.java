@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         else if (v.equals(register)){
             Log.d("TAG", "REGISTER PRESSED");
-                if(user.getText().equals("") || pass.getText().equals(""))
+                if(user.getText().toString().equals("") || pass.getText().toString().equals(""))
                 {
                         Toast.makeText(this, "User And Password fields cannot be empty", Toast.LENGTH_SHORT).show();
                 }else {
