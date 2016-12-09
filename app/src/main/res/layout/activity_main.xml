@@ -42,33 +42,17 @@
         android:onClick="listLocationStart"/>
     </LinearLayout>
     <TextView
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Task Related"
         android:textSize="30dp"/>
-    <LinearLayout
+
+    <TextView
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TaskName"
-            android:textSize="20dp"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="TaskNameInput"
-            android:id="@+id/TaskNameInputMain"
-            android:textSize="15dp"/>
-
-    </LinearLayout>
+        android:text="Select Task Type Then press Add Task"/>
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,11 +71,7 @@
         android:onClick="SignOutClick"
         android:layout_gravity="end"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TEST"
-        android:id="@+id/tv_test"/>
+
 
 
 </LinearLayout>

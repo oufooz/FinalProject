@@ -1,6 +1,8 @@
 package com.example.omaro.maptest;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -39,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         private TextView test;
         private Context mContext;
         private Spinner spin;
-        private EditText inputName;
         private SQLhelper sqLhelper;
         private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
@@ -54,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
                                 0);
                 }
                 mContext = this;
-                test = (TextView) findViewById(R.id.tv_test);
                 spin = (Spinner) findViewById(R.id.TaskType);
-                inputName = (EditText) findViewById(R.id.TaskNameInputMain);
                 sqLhelper = new SQLhelper(this);
                 ArrayList<String> temp = new ArrayList<>();
                 temp.add("NAV");
@@ -71,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected  void onResume(){
                 super.onResume();
+                if(checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                                0);
+                }
                 if(receiver == null){
                         receiver = new BroadcastReceiver() {
                                 @Override
@@ -82,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
                                         SharedPreferences temp = getSharedPreferences(intent.getStringExtra("nick") , MODE_PRIVATE);
                                         Set<String> t = temp.getStringSet("Tasks", new HashSet<String>());
                                         Log.d("recieved",t.toString());
+
+
+                                        NotificationCompat.Builder mBuilder = (android.support.v7.app.NotificationCompat.Builder) new NotificationCompat.Builder(MainActivity.this)
+                                                .setSmallIcon(R.drawable.bellicon)
+                                                .setContentTitle("PROXIMITY ALERT")
+                                                .setContentText("You are currently within 100 meter of " + intent.getStringExtra("nick") + "location");
+
+                                        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                        mNotifyMgr.notify(01,mBuilder.build());
 
                                         for (String s: t) {
                                                 SharedPreferences TaskPref = getSharedPreferences(s, MODE_PRIVATE);
@@ -203,6 +217,9 @@ public class MainActivity extends AppCompatActivity {
                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(t.latitude + "," + t.longitude));
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
+
+
+
                 startActivity(mapIntent);
         }
 
